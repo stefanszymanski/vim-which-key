@@ -11,6 +11,10 @@ function! which_key#register(prefix, dict) abort
 endfunction
 
 function! which_key#start(vis, bang, prefix) " {{{
+  if exists('s:cur_char')
+      unlet s:cur_char
+  endif
+
   let s:vis = a:vis ? 'gv' : ''
   let s:count = v:count != 0 ? v:count : ''
   let s:which_key_trigger = ''
@@ -302,7 +306,7 @@ function! s:execute_native_fallback() abort
   let l:reg = which_key#util#get_register()
   let l:fallback_cmd = s:vis.l:reg.s:count.substitute(s:which_key_trigger, ' ', '', '').get(s:, 'cur_char', '')
   try
-    execute 'normal! '.l:fallback_cmd
+    call feedkeys(l:fallback_cmd, 'n')
   catch
     echohl ErrorMsg
     echom '[which-key] Exception: '.v:exception.' occurs for the fallback mapping: '.l:fallback_cmd
