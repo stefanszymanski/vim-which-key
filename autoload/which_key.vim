@@ -150,7 +150,7 @@ function! s:merge(target, native) " {{{
               \ v]
       else
         let target[k] = [
-              \ has_key(native, k) ? native[k][0] : 'which_key#util#mismatch()',
+              \ has_key(native, k) ? native[k][0] : 's:execute_native_fallback()',
               \ v]
       endif
 
